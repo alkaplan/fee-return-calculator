@@ -77,12 +77,13 @@ export function SensitivityChart() {
               tick={{ fontSize: 12, fill: '#64748b' }}
             />
             <Tooltip
-              labelFormatter={(v: number) => 'Exit Price: $' + Math.round(v)}
-              formatter={(value: number | null, name: string) => {
-                if (value === null) return ['N/A', name];
-                if (metric === 'netReturn') return [formatCurrencyFull(value), name];
-                if (metric === 'netMOIC') return [formatMOIC(value), name];
-                return [formatPercent(value / 100), name];
+              labelFormatter={(v) => 'Exit Price: $' + Math.round(v as number)}
+              formatter={(value, name) => {
+                if (value === null || value === undefined) return ['N/A', name];
+                const v = value as number;
+                if (metric === 'netReturn') return [formatCurrencyFull(v), name];
+                if (metric === 'netMOIC') return [formatMOIC(v), name];
+                return [formatPercent(v / 100), name];
               }}
               contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e2e8f0' }}
               labelStyle={{ fontWeight: 600, marginBottom: 4 }}

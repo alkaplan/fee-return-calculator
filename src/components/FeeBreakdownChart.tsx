@@ -38,7 +38,7 @@ export function FeeBreakdownChart() {
               tick={{ fontSize: 12, fill: '#64748b' }}
             />
             <Tooltip
-              formatter={(value: number, name: string) => [formatCurrencyFull(value), name]}
+              formatter={(value, name) => [formatCurrencyFull(value as number), name]}
               contentStyle={{ fontSize: 12, borderRadius: 8, border: '1px solid #e2e8f0' }}
               labelStyle={{ fontWeight: 600, marginBottom: 4 }}
             />
