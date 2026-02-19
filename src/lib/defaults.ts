@@ -33,6 +33,7 @@ export function defaultOffer(name: string, id?: string): Offer {
     hurdleRatePercent: 0,
     catchUpPercent: 0,
     setupFee: 0,
+    setupFeeIsPercent: false,
     placementFeePercent: 0,
     showAdvanced: false,
     managementFeeBasis: 'committed',

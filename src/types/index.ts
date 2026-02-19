@@ -23,6 +23,7 @@ export interface Offer {
   hurdleRatePercent: number;
   catchUpPercent: number;
   setupFee: number;
+  setupFeeIsPercent: boolean;
   placementFeePercent: number;
   // Advanced
   showAdvanced: boolean;

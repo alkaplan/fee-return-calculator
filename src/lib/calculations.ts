@@ -70,7 +70,10 @@ function computeCore(scenario: Scenario, offer: Offer) {
 
   const sharesAcquired = investmentAmount / offer.pricePerShare;
   const placementFee = investmentAmount * (offer.placementFeePercent / 100);
-  const upfrontFees = offer.setupFee + placementFee;
+  const setupFee = offer.setupFeeIsPercent
+    ? investmentAmount * (offer.setupFee / 100)
+    : offer.setupFee;
+  const upfrontFees = setupFee + placementFee;
   const totalCashOutlay = investmentAmount + upfrontFees;
   const grossExitValue = sharesAcquired * exitPricePerShare;
 
@@ -112,7 +115,7 @@ function computeCore(scenario: Scenario, offer: Offer) {
   const effectiveFeeRate = grossProfit > 0 ? totalFees / grossProfit : 0;
 
   return {
-    sharesAcquired, upfrontFees, totalCashOutlay, grossExitValue,
+    sharesAcquired, setupFee, upfrontFees, totalCashOutlay, grossExitValue,
     grossProfit, grossMOIC, netExitValue, netReturn, netMOIC, netIRR,
     totalFees, effectiveFeeRate, placementFee, totalManagementFees,
     totalAdminFees, carry,
@@ -156,7 +159,7 @@ export function calculateOfferFull(scenario: Scenario, offer: Offer): Calculatio
     effectiveFeeRate: core.effectiveFeeRate,
     breakEvenPrice,
     feeBreakdown: {
-      setupFee: offer.setupFee,
+      setupFee: core.setupFee,
       placementFee: core.placementFee,
       totalManagementFees: core.totalManagementFees,
       totalAdminFees: core.totalAdminFees,

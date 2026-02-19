@@ -119,15 +119,27 @@ export function OfferCard({ offer }: OfferCardProps) {
               step={10}
               tooltip="Percentage of profits above hurdle allocated to GP during catch-up. 100% = full catch-up, 0% = no catch-up."
             />
-            <NumberInput
-              label="Setup Fee"
-              value={offer.setupFee}
-              onChange={(v) => update({ setupFee: v })}
-              prefix="$"
-              min={0}
-              step={100}
-              tooltip="One-time flat fee charged at setup (added to cash outlay)"
-            />
+            <div>
+              <NumberInput
+                label="Setup Fee"
+                value={offer.setupFee}
+                onChange={(v) => update({ setupFee: v })}
+                prefix={offer.setupFeeIsPercent ? undefined : '$'}
+                suffix={offer.setupFeeIsPercent ? '%' : undefined}
+                min={0}
+                step={offer.setupFeeIsPercent ? 0.1 : 100}
+                tooltip="One-time fee charged at setup (flat $ or % of investment, added to cash outlay)"
+              />
+              <label className="flex items-center gap-2 text-xs text-slate-500 mt-1">
+                <input
+                  type="checkbox"
+                  checked={offer.setupFeeIsPercent}
+                  onChange={(e) => update({ setupFeeIsPercent: e.target.checked })}
+                  className="rounded border-slate-300 text-indigo-500 focus:ring-indigo-400"
+                />
+                as %
+              </label>
+            </div>
             <NumberInput
               label="Placement Fee"
               value={offer.placementFeePercent}
