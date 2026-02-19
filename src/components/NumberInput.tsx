@@ -50,7 +50,6 @@ export function NumberInput({
   suffix,
   min,
   max,
-  step = 1,
   tooltip,
   className = '',
 }: NumberInputProps) {
