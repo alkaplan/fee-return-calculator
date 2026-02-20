@@ -13,6 +13,8 @@ export function OfferCard({ offer }: OfferCardProps) {
   const toggleAdvanced = useCalculator(s => s.toggleAdvanced);
   const toggleCollapsed = useCalculator(s => s.toggleCollapsed);
   const offerCount = useCalculator(s => s.offers.length);
+  const scenario = useCalculator(s => s.scenario);
+  const isValuation = scenario.priceMode === 'valuation';
 
   const update = (updates: Partial<Offer>) => updateOffer(offer.id, updates);
 
@@ -70,15 +72,25 @@ export function OfferCard({ offer }: OfferCardProps) {
         <div className="p-4 space-y-4">
           {/* Core fields */}
           <div className="grid grid-cols-2 gap-3">
-            <NumberInput
-              label="Price / Share"
-              value={offer.pricePerShare}
-              onChange={(v) => update({ pricePerShare: v })}
-              prefix="$"
-              min={0.01}
-              step={1}
-              tooltip="Price per share in this offer"
-            />
+            {isValuation ? (
+              <NumberInput
+                label="Entry Valuation"
+                value={offer.pricePerShare * scenario.sharesOutstanding}
+                onChange={(v) => update({ pricePerShare: v / scenario.sharesOutstanding })}
+                prefix="$"
+                min={0}
+                tooltip="Company valuation implied by this offer's price per share"
+              />
+            ) : (
+              <NumberInput
+                label="Price / Share"
+                value={offer.pricePerShare}
+                onChange={(v) => update({ pricePerShare: v })}
+                prefix="$"
+                min={0.01}
+                tooltip="Price per share in this offer"
+              />
+            )}
             <NumberInput
               label="Management Fee"
               value={offer.managementFeePercent}

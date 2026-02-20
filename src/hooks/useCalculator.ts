@@ -113,11 +113,20 @@ export const useCalculator = create<CalculatorState>()(
         offers: state.offers,
       }),
       onRehydrateStorage: () => (state) => {
-        if (state && state.offers.length > 0) {
-          resetColorIndex(state.offers.length);
-          const { results, sensitivity } = recomputeResults(state.scenario, state.offers);
-          state.results = results;
-          state.sensitivity = sensitivity;
+        if (state) {
+          // Migrate old persisted data missing new fields
+          if (!state.scenario.priceMode) state.scenario.priceMode = 'pps';
+          if (!state.scenario.sharesOutstanding) state.scenario.sharesOutstanding = 1_000_000;
+          state.offers.forEach(o => {
+            if (o.setupFeeIsPercent === undefined) o.setupFeeIsPercent = false;
+          });
+
+          if (state.offers.length > 0) {
+            resetColorIndex(state.offers.length);
+            const { results, sensitivity } = recomputeResults(state.scenario, state.offers);
+            state.results = results;
+            state.sensitivity = sensitivity;
+          }
         }
       },
     }

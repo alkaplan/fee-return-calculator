@@ -19,6 +19,8 @@ export function defaultScenario(): Scenario {
     investmentAmount: 100000,
     exitPricePerShare: 300,
     timeHorizon: 3,
+    priceMode: 'pps',
+    sharesOutstanding: 1_000_000,
   };
 }
 

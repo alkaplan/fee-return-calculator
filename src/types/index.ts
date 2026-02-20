@@ -1,7 +1,11 @@
+export type PriceMode = 'pps' | 'valuation';
+
 export interface Scenario {
   investmentAmount: number;
   exitPricePerShare: number;
   timeHorizon: number;
+  priceMode: PriceMode;
+  sharesOutstanding: number;
 }
 
 export interface HurdleTier {
